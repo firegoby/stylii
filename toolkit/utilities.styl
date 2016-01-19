@@ -1,3 +1,18 @@
+@require "settings"
+
+// Debug utilities
+//
+// Additive alpha BG
+debug()
+    & *
+        background rgba(255,0,0,0.1)
+
+// Border variation
+debugb()
+    border 1px dotted rgba(255,0,0,0.5)
+    & *
+        border 1px dotted rgba(255,0,0,0.5)
+
 // All But... utilities
 //
 // Apply styles to all but the last element of it's type

@@ -65,6 +65,46 @@ font-smoothing(value = on)
         -webkit-font-smoothing subpixel-antialiased
         -moz-osx-font-smoothing auto
 
+// Set pixel font size in rems
+font-size-rem(size)
+    font-size size
+    font-size unit((size / $f-base-size), 'rem')
+
+// Bounded Responsive Font Size
+//
+// http://madebymike.com.au/writing/precise-control-responsive-typography/
+font-range(min, max, start, end)
+    $start = start * 1px
+    $end = end * 1px
+    font-size min * 1px
+    @media (min-width: $start) and (max-width: $end)
+        font-size ((min + max) / 2) * 1px
+        font-size s("calc( %spx + (%s - %s) * ( (100vw - %spx) / (%s - %s) ));", min, max, min, start, end, start)
+    @media (min-width: $end)
+        font-size max * 1px
+
+// https://eduardoboucas.com/blog/2015/06/18/viewport-sized-typography-with-minimum-and-maximum-sizes.html
+font-spread(size, min, max = false, fallback = false)
+    if unit(size) is 'vh'
+        $dimension = height
+    else
+        $dimension = width
+    $unitless = unit(size, '')
+    $min-break = round(min / $unitless * 100)
+    $max-break = round(max / $unitless * 100)
+
+    @media (max-{$dimension}: $min-break)
+        font-size-rem min
+
+    if max
+        @media (min-{$dimension}: $max-break)
+            font-size-rem max
+
+    if fallback
+        font-size-rem fallback
+
+    font-size size
+
 
 // List Seperator - Separate list items with a character
 //
